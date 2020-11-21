@@ -1,0 +1,17 @@
+{
+    "name": "panique/mini3",
+    "description": "Backend",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+        "firebase/php-jwt": "v5.2.0"
+    },
+    "autoload":
+    {
+        "psr-4":
+        {
+            "Backend\\" : "application/"
+        }
+    }
+}
