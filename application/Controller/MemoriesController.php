@@ -36,6 +36,8 @@ class MemoriesController
     }
     
     public function createMemory(){
+        $_POST = json_decode(file_get_contents('php://input'), true);
+
         if(isset($_POST)){
             try {
                 $notObrigatory = [
@@ -123,6 +125,9 @@ class MemoriesController
     }
 
     public function updateMemory($memoryId){
+
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        
         if($memoryId){
             if(isset($_POST)){
                 try {

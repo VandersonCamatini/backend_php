@@ -9,11 +9,15 @@ class Memory extends Model
     public function getMemoryById($memoryId)
     {
         $sql = "SELECT
-                    *
+                    moc.*, sbs.name AS subject_name, sbs.teacher_name
                 FROM
-                    memories_of_class
+                    memories_of_class moc
+                LEFT JOIN
+                    subjects sbs
+                ON
+                    sbs.id = moc.id_subject
                 WHERE
-                    id = :id";
+                    moc.id = :id";
 
         $query = $this->db->prepare($sql);
         $parameters = array(":id" => $memoryId);
@@ -54,11 +58,15 @@ class Memory extends Model
     public function getMemoriesByIdUser($userId)
     {
         $sql = "SELECT
-                    *
+                    moc.*, sbs.name AS subject_name, sbs.teacher_name
                 FROM
-                    memories_of_class
+                    memories_of_class moc
+                LEFT JOIN
+                    subjects sbs
+                ON
+                    sbs.id = moc.id_subject
                 WHERE
-                    id_user = :id_user";
+                    moc.id_user = :id_user";
 
         $query = $this->db->prepare($sql);
         $parameters = array(":id_user" => $userId);

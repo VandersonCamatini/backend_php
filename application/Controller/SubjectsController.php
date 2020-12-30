@@ -35,6 +35,9 @@ class SubjectsController
     }
     
     public function createSubject(){
+
+        $_POST = json_decode(file_get_contents('php://input'), true);
+
         if(isset($_POST)){
             try {
                 foreach($_POST AS $key => $field){
@@ -81,12 +84,17 @@ class SubjectsController
     }
 
     public function updateSubject($subjectId){
+
+        $_POST = json_decode(file_get_contents('php://input'), true);
+      
         if($subjectId){
             if(isset($_POST)){
                 try {
                     foreach($_POST AS $key => $field){
-                        if(empty($field)){
-                            Util::returnJson(400, true, "O campo ". $key  ." não pode ser vazio.");
+                        if($key !== 'updated_at'){
+                            if(empty($field)){
+                                Util::returnJson(400, true, "O campo ". $key  ." não pode ser vazio.");
+                            }
                         }
                     }
                
@@ -96,7 +104,6 @@ class SubjectsController
                         $_POST['updated_at'] = date('Y-m-d H:i:s');
                         (new GenericMethods())->update($_POST, $this->table, 'id', $subjectId);
                         $updatedSubject = (new Subject())->getSubjectById($subjectId);
-    
                         Util::returnJson(200,  false, "Disciplina alterada com sucesso.", $updatedSubject);
                     }else{
                         Util::returnJson(404,  true, "Disciplina não encontrada.");

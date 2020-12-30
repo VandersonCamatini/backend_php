@@ -1,8 +1,8 @@
-* Lembre-se de instalar o composer na sua máquina.
+# Lembre-se de instalar o composer na sua máquina.
 
-* Ao instalar, entre na pasta do projeto, e rode o comando composer install, caso precise atualizar, composer update.
+# Ao instalar, entre pasta do projeto, e rode o comando composer install, caso precise atualizar, composer update.
 
-* Lembre-se de trocar a conexão com o banco de dados em Config/config.php
+# Lembre-se de trocar a conexão com o banco de dados em Config/config.php
 
 # BANCO DE DADOS
     CREATE TABLE `backend`.`users` 

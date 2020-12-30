@@ -11,9 +11,12 @@ class AuthController
     public function __construct()
     {
         date_default_timezone_set("America/Sao_Paulo");
+        
+        $_POST = json_decode(file_get_contents('php://input'), true);
 
         $email = (isset($_POST['email'])) ? $_POST['email'] : false;
         $password = (isset($_POST['password'])) ? $_POST['password'] : false;
+
         
         if(!$email){
             Util::returnJson(401, true, "Usuário não informado");
@@ -41,6 +44,6 @@ class AuthController
             ]
         );
 
-        Util::returnJson(200, false, "Token gerado com sucesso", JWTWrapper::encode($jwt));
+        Util::returnJson(200, false, "Token gerado com sucesso", json_encode(array("token" => JWTWrapper::encode($jwt), "id" => $user->id, "email" => $user->email, "name" => $user->name)));
     }
 }

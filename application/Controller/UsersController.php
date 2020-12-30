@@ -9,16 +9,14 @@ use Backend\Model\User;
 class UsersController
 {   
     private $table = "users";
-
-    public function __construct()
-    {
-        $headers = getallheaders();
-        $token = (isset($headers['token-security'])) ? $headers['token-security'] : false;
-        
-        Util::protect($token);
-    }
     
     public function getAllUsers(){
+
+        $headers = getallheaders();
+        $token = (isset($headers['token-security'])) ? $headers['token-security'] : false;
+
+        Util::protect($token);
+
         try {
             $users = (new GenericMethods())->getAll($this->table);
 
@@ -29,6 +27,9 @@ class UsersController
     }
 
     public function createUser(){
+
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        
         if(isset($_POST)){
             try {
                 foreach($_POST AS $key => $field){
@@ -58,6 +59,7 @@ class UsersController
     }
 
     public function getUser($userId){
+       
         if($userId){
             try {
                 $user = (new User())->getUserById($userId);
@@ -78,6 +80,13 @@ class UsersController
     }
 
     public function updateUser($userId){
+
+        $headers = getallheaders();
+        $token = (isset($headers['token-security'])) ? $headers['token-security'] : false;
+        Util::protect($token);
+
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        
         if($userId){
             if(isset($_POST)){
                 try {
@@ -120,6 +129,10 @@ class UsersController
     }
 
     public function deleteUser($userId){
+        $headers = getallheaders();
+        $token = (isset($headers['token-security'])) ? $headers['token-security'] : false;
+        Util::protect($token);
+
         if($userId){
             try {
                 $user = (new User())->getUserById($userId);

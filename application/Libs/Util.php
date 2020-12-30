@@ -13,12 +13,24 @@ class Util
      * @param string $message
      * @param mixed $return
      */
-    public static function returnJson($status, $error, $message, $return = false)
+    public static function returnJson($status = 200, $error, $message, $return = false)
     {
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            http_response_code(200);
+        
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+              header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");         
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+              header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+              // header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding");
+            exit(0);
+        }
+        
         header("HTTP/1.1 $status");
         header('Content-Type: application/json');
+        
 
-        echo json_encode(array('erro' => $error, 'mensagem' => $message, 'retorno' => $return));
+        echo json_encode(array('error' => $error, 'message' => $message, 'return' => $return));
         die();
     }
 
